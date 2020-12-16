@@ -16,6 +16,7 @@ matplotlib
 scipy
 tqdm
 numba
+opensafely-cohort-extractor
 
 # Both these required for plotly+notebooks
 plotly
