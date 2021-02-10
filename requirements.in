@@ -6,6 +6,7 @@ jupyterlab
 jupytext
 bash_kernel
 nbval
+opensafely-matching
 
 # Commonly-used packages provided in base docker image
 pandas-gbq
