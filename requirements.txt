@@ -64,7 +64,7 @@ numpy==1.18.1             # via -r requirements.in, matplotlib, numba, pandas, p
 oauthlib==3.1.0           # via requests-oauthlib
 opensafely-cohort-extractor==1.20.6  # via -r requirements.in
 opensafely-jobrunner==2.1.6  # via opensafely-cohort-extractor
-opensafely-matching==0.1.2  # via -r requirements.in
+opensafely-matching==0.2.0  # via -r requirements.in
 packaging==20.1           # via pytest
 pandas-gbq==0.13.0        # via -r requirements.in, ebmdatalab
 pandas==1.0.1             # via -r requirements.in, ebmdatalab, geopandas, opensafely-cohort-extractor, opensafely-matching, pandas-gbq, seaborn, statsmodels
