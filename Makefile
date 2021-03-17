@@ -1,3 +1,6 @@
+IMAGE_NAME ?= docker-python-test
+
+
 requirements.txt: requirements.in venv/bin/pip-compile
 	venv/bin/pip-compile requirements.in
 
@@ -9,8 +12,8 @@ venv:
 
 .PHONY: build
 build:
-	docker build . -t docker-python-test
+	docker build . -t $(IMAGE_NAME)
 
 .PHONY: test
 test: build
-	docker run -it --rm -v $(PWD):/workspace docker-python-test pytest tests -v
+	docker run -it --rm -v $(PWD):/workspace $(IMAGE_NAME) pytest tests -v
