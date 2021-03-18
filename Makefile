@@ -1,4 +1,5 @@
 IMAGE_NAME ?= docker-python-test
+INTERACTIVE:=$(shell [ -t 0 ] && echo 1)
 
 
 requirements.txt: requirements.in venv/bin/pip-compile
@@ -15,5 +16,10 @@ build:
 	docker build . -t $(IMAGE_NAME)
 
 .PHONY: test
+ifdef INTERACTIVE
+test: RUN_ARGS=-it
+else
+test: RUN_ARGS=
+endif
 test: build
-	docker run -it --rm -v $(PWD):/workspace $(IMAGE_NAME) pytest tests -v
+	docker run $(RUN_ARGS) --rm -v $(PWD):/workspace $(IMAGE_NAME) pytest tests -v
