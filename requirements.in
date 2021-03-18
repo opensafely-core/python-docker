@@ -23,7 +23,10 @@ opensafely-cohort-extractor
 plotly
 ipywidgets
 
-
-
 # Add extra per-notebook packages here
 pillow
+
+
+# Allow for projects to run tests inside the container
+pytest
+
