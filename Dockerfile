@@ -14,4 +14,5 @@ RUN LLVM_CONFIG=/usr/bin/llvm-config-10 python -m pip install --requirement /tmp
 
 RUN mkdir /workspace
 WORKDIR /workspace
-CMD python
+COPY entrypoint.py /entrypoint.py
+ENTRYPOINT ["/entrypoint.py"]
