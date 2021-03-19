@@ -10,6 +10,8 @@ jobs:
     - name: Checkout
       uses: actions/checkout@master
     - name: Build image
-      run: make build IMAGE_NAME=$IMAGE_NAME
+      run: make build
     - name: Run tests
-      run: make test IMAGE_NAME=$IMAGE_NAME
+      run: make test
+    - name: Run lint
+      run: make lint 
