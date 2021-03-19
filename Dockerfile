@@ -44,6 +44,8 @@ FROM base-python as python
 
 # Some static metadata for this specific image, as defined by:
 # https://github.com/opencontainers/image-spec/blob/master/annotations.md#pre-defined-annotation-keys
+# The org.opensafely.action label is used by the jobrunner to indicate this is
+# an approved action image to run.
 LABEL org.opencontainers.image.title="python" \
       org.opencontainers.image.description="Python action for opensafely.org" \
       org.opencontainers.image.source="https://github.com/opensafely-core/python-docker" \
@@ -57,7 +59,7 @@ ENV VIRTUAL_ENV=/opt/venv/ PATH="/opt/venv/bin:$PATH" ACTION_EXEC=python
 RUN mkdir /workspace
 WORKDIR /workspace
 
-# tag with build info
+# tag with build info as the very last step, as it will never be cached
 ARG BUILD_DATE
 ARG GITREF
 LABEL org.opencontainers.image.created=$BUILD_DATE org.opencontainers.image.revision=$GITREF
