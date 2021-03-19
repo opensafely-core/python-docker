@@ -1,3 +1,4 @@
+# syntax=docker/dockerfile:1.2
 #################################################
 #
 # First build a base python image from the OS base image, so we only do this once.
@@ -24,7 +25,8 @@ COPY requirements.txt .
 # Note: the mount command does two things: 1) caches across builds to speed up
 # local development and 2) ensures the pip cache does not get committed to the
 # layer.
-RUN python -m pip install -U pip setuptools wheel && \
+RUN --mount=type=cache,target=/root/.cache \
+    python -m pip install -U pip setuptools wheel && \
     python -m pip install --requirement requirements.txt
 
 ################################################
