@@ -21,6 +21,11 @@ test:
 	docker run $(RUN_ARGS) --rm -v $(PWD):/workspace $(IMAGE_NAME) pytest tests -v
 
 
+.PHONY: lint
+lint:
+	@docker pull hadolint/hadolint
+	@docker run --rm -i hadolint/hadolint < Dockerfile
+
 requirements.txt: requirements.in venv/bin/pip-compile
 	venv/bin/pip-compile requirements.in
 
