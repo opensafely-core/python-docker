@@ -18,6 +18,7 @@ scipy
 tqdm
 numba
 opensafely-cohort-extractor
+pyarrow
 
 # Both these required for plotly+notebooks
 plotly
