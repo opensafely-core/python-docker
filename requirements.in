@@ -19,6 +19,8 @@ tqdm
 numba
 opensafely-cohort-extractor
 pyarrow
+venn
+kaleido
 
 # Both these required for plotly+notebooks
 plotly
