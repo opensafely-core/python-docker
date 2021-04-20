@@ -21,6 +21,7 @@ opensafely-cohort-extractor
 pyarrow
 venn
 kaleido
+scikit-learn
 
 # Both these required for plotly+notebooks
 plotly
