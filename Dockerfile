@@ -9,7 +9,7 @@
 # design.
 #
 # hadolint ignore=DL3007
-FROM ghcr.io/opensafely-core/base-docker:latest as base-python
+FROM ghcr.io/opensafely-core/base-action:latest as base-python
 COPY dependencies.txt /root/dependencies.txt
 # use space efficient utility from base image
 RUN /root/docker-apt-install.sh /root/dependencies.txt
