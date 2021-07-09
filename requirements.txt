@@ -29,7 +29,6 @@ click==7.0
     #   cligj
     #   fiona
     #   pip-tools
-    #   presto-python-client
 click-plugins==1.1.1
     # via fiona
 cligj==0.5.0
@@ -151,6 +150,8 @@ kiwisolver==1.1.0
     # via matplotlib
 llvmlite==0.34.0
     # via numba
+lz4==3.1.3
+    # via opensafely-cohort-extractor
 markupsafe==1.1.1
     # via jinja2
 matplotlib==3.1.3
@@ -200,10 +201,8 @@ numpy==1.18.1
     #   statsmodels
 oauthlib==3.1.0
     # via requests-oauthlib
-opensafely-cohort-extractor==1.20.6
+opensafely-cohort-extractor==1.36.0
     # via -r requirements.in
-opensafely-jobrunner==2.1.6
-    # via opensafely-cohort-extractor
 opensafely-matching==0.2.0
     # via -r requirements.in
 packaging==20.1
@@ -244,10 +243,6 @@ plotly==4.5.0
     # via -r requirements.in
 pluggy==0.13.1
     # via pytest
-presto-python-client==0.7.0
-    # via opensafely-cohort-extractor
-prettytable==2.0.0
-    # via opensafely-cohort-extractor
 prometheus-client==0.7.1
     # via notebook
 prompt-toolkit==3.0.3
@@ -268,7 +263,9 @@ py==1.8.1
     #   pytest
     #   retry
 pyarrow==3.0.0
-    # via -r requirements.in
+    # via
+    #   -r requirements.in
+    #   opensafely-cohort-extractor
 pyasn1==0.4.8
     # via
     #   pyasn1-modules
@@ -322,8 +319,6 @@ requests==2.22.0
     # via
     #   google-api-core
     #   opensafely-cohort-extractor
-    #   opensafely-jobrunner
-    #   presto-python-client
     #   requests-oauthlib
     #   requests-pkcs12
 requests-oauthlib==1.3.0
@@ -336,10 +331,6 @@ retrying==1.3.3
     # via plotly
 rsa==4.0
     # via google-auth
-ruamel.yaml==0.16.12
-    # via opensafely-jobrunner
-ruamel.yaml.clib==0.2.2
-    # via ruamel.yaml
 scikit-learn==0.24.1
     # via -r requirements.in
 scipy==1.4.1
@@ -372,7 +363,6 @@ six==1.14.0
     #   packaging
     #   patsy
     #   plotly
-    #   presto-python-client
     #   protobuf
     #   pyopenssl
     #   pyrsistent
@@ -425,7 +415,6 @@ venn==0.1.3
     # via -r requirements.in
 wcwidth==0.1.8
     # via
-    #   prettytable
     #   prompt-toolkit
     #   pytest
 webencodings==0.5.1
