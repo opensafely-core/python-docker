@@ -24,6 +24,7 @@ COPY build-dependencies.txt /root/build-dependencies.txt
 RUN /root/docker-apt-install.sh /root/build-dependencies.txt
 
 # install everything in venv for isolation from system python libraries
+# hadolint ignore=DL3059
 RUN python3 -m venv /opt/venv
 ENV VIRTUAL_ENV=/opt/venv/ PATH="/opt/venv/bin:$PATH" LLVM_CONFIG=/usr/bin/llvm-config-10
 
