@@ -1,0 +1,11 @@
+version: 2
+
+updates:
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    reviewers:
+      - "opensafely-core/developers"
+    allow:
+      - dependency-name: "opensafely-cohort-extractor"
