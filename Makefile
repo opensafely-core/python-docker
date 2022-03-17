@@ -23,8 +23,8 @@ test:
 
 .PHONY: lint
 lint:
-	@docker pull hadolint/hadolint
-	@docker run --rm -i hadolint/hadolint < Dockerfile
+	@docker pull hadolint/hadolint:v2.8.0
+	@docker run --rm -i hadolint/hadolint:v2.8.0 < Dockerfile
 
 requirements.txt: requirements.in venv/bin/pip-compile
 	venv/bin/pip-compile requirements.in
