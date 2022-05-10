@@ -5,7 +5,7 @@ on:
 env:
   IMAGE_NAME: python
 jobs:
-  build:
+  build-and-publish:
     runs-on: ubuntu-20.04
     steps:
     - name: Checkout
