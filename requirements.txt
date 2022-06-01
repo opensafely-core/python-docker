@@ -170,6 +170,7 @@ matplotlib==3.1.3
     #   descartes
     #   lifelines
     #   seaborn
+    #   upsetplot
     #   venn
 mistune==0.8.4
     # via nbconvert
@@ -233,6 +234,7 @@ pandas==1.0.1
     #   pandas-gbq
     #   seaborn
     #   statsmodels
+    #   upsetplot
 pandas-gbq==0.13.0
     # via
     #   -r requirements.in
@@ -412,6 +414,8 @@ traitlets==4.3.3
     #   nbformat
     #   notebook
     #   qtconsole
+upsetplot==0.6.1
+    # via -r requirements.in
 urllib3==1.25.8
     # via requests
 venn==0.1.3

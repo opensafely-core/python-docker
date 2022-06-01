@@ -35,3 +35,5 @@ pillow
 # Allow for projects to run tests inside the container
 pytest
 
+# For visualisation of set overlaps
+upsetplot
