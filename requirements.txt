@@ -216,7 +216,7 @@ numpy==1.18.1
     #   statsmodels
 oauthlib==3.1.0
     # via requests-oauthlib
-opensafely-cohort-extractor==1.76.0
+opensafely-cohort-extractor==1.76.1
     # via -r requirements.in
 opensafely-matching==0.2.0
     # via -r requirements.in
