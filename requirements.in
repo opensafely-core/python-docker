@@ -30,7 +30,7 @@ ipywidgets
 
 # Add extra per-notebook packages here
 pillow
-
+cairosvg
 
 # Allow for projects to run tests inside the container
 pytest
