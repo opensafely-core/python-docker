@@ -6,3 +6,5 @@ python3-venv
 python3-wheel
 # for numba
 llvm-10-dev
+# for cairosvg
+libffi-dev

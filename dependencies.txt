@@ -7,3 +7,6 @@ python3-pip
 python3-distutils
 tzdata
 ca-certificates
+
+# for cairosvg
+libcairo2
