@@ -62,5 +62,7 @@ WORKDIR /workspace
 
 # tag with build info as the very last step, as it will never be cached
 ARG BUILD_DATE
-ARG GITREF
-LABEL org.opencontainers.image.created=$BUILD_DATE org.opencontainers.image.revision=$GITREF
+ARG REVISION
+# RFC 3339.
+LABEL org.opencontainers.image.created=$BUILD_DATE \
+      org.opencontainers.image.revision=$REVISION

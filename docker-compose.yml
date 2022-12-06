@@ -1,0 +1,19 @@
+services:
+  # used to build the production image
+  python:
+    image: python
+    build:
+      context: .
+      target: python
+      # should speed up the build in CI, where we have a cold cache
+      cache_from:  # should speed up the build in CI, where we have a cold cache
+        - ghcr.io/opensafely-core/base-docker
+        - ghcr.io/opensafely-core/python
+      args:
+        # this makes the image work for later cache_from: usage
+        - BUILDKIT_INLINE_CACHE=1
+        # env vars supplied by make/just
+        - BUILD_DATE
+        - REVISION
+        - VERSION
+    init: true

@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
     - name: Checkout
-      uses: actions/checkout@master
+      uses: actions/checkout@v3
     - name: Build image
       run: make build
     - name: Run tests
@@ -18,9 +18,9 @@ jobs:
     - name: Run lint
       run: make lint 
     - name: Log into GitHub Container Registry
-      run: docker login https://ghcr.io -u ${{ github.actor }} --password ${{ secrets.GITHUB_TOKEN }}
+      run: echo "{{ secrets.GITHUB_TOKEN }}" | docker login https://ghcr.io -u ${{ github.actor }} --password-stdin
     - name: Push image to GitHub Container Registry
       run: |
-        IMAGE_ID=ghcr.io/${{ github.repository_owner }}/$IMAGE_NAME
-        docker tag $IMAGE_NAME $IMAGE_ID:latest
-        docker push $IMAGE_ID:latest
+        IMAGE_ID="ghcr.io/${{ github.repository_owner }}/$IMAGE_NAME"
+        docker tag "$IMAGE_NAME $IMAGE_ID:latest"
+        docker push "$IMAGE_ID:latest"
