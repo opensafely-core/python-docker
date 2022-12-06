@@ -3,6 +3,8 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+permissions:
+  packages: write
 env:
   IMAGE_NAME: python
 jobs:
