@@ -1,24 +1,16 @@
-IMAGE_NAME ?= docker-python-test
 INTERACTIVE:=$(shell [ -t 0 ] && echo 1)
 export DOCKER_BUILDKIT=1
+export BUILD_DATE=$(shell date +'%y-%m-%dT%H:%M:%S.%3NZ')
+export REVISION=$(shell git rev-parse --short HEAD)
 
 .PHONY: build
-build: BUILD_DATE=$(shell date +'%y-%m-%dT%H:%M:%S.%3NZ')
-build: GITREF=$(shell git rev-parse --short HEAD)
 build:
-	docker build . --tag $(IMAGE_NAME) --progress=plain \
-		--build-arg BUILDKIT_INLINE_CACHE=1 --cache-from ghcr.io/opensafely-core/python \
-		--build-arg BUILD_DATE=$(BUILD_DATE) --build-arg GITREF=$(GITREF)
+	docker-compose build --pull python
 
 
 .PHONY: test
-ifdef INTERACTIVE
-test: RUN_ARGS=-it
-else
-test: RUN_ARGS=
-endif
 test:
-	docker run $(RUN_ARGS) --rm -v $(PWD):/workspace $(IMAGE_NAME) pytest tests -v
+	docker-compose run --rm -v $(PWD):/workspace python pytest tests -v
 
 
 .PHONY: lint
