@@ -12,6 +12,11 @@ build:
 test:
 	docker-compose run --rm -v $(PWD):/workspace python pytest tests -v
 
+# test basic python invocation
+functional-test:
+	docker-compose run --rm python -c ''
+	docker-compose run --rm python python -c ''
+
 
 .PHONY: lint
 lint:
