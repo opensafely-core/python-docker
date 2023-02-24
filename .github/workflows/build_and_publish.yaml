@@ -26,3 +26,7 @@ jobs:
         IMAGE_ID="ghcr.io/${{ github.repository_owner }}/$IMAGE_NAME"
         docker tag "$IMAGE_NAME" "$IMAGE_ID:latest"
         docker push "$IMAGE_ID:latest"
+
+        JUPYTER_ID="ghcr.io/${{ github.repository_owner }}/jupyter"
+        # also publish as jupyter image for backward compatibility
+        docker tag "$IMAGE_NAME" "$JUPYTER_ID:latest"
