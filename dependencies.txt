@@ -10,3 +10,6 @@ ca-certificates
 
 # for cairosvg
 libcairo2
+
+# Some jupyter notebooks rely on using git to get current version of repo
+git
