@@ -30,3 +30,4 @@ jobs:
         JUPYTER_ID="ghcr.io/${{ github.repository_owner }}/jupyter"
         # also publish as jupyter image for backward compatibility
         docker tag "$IMAGE_NAME" "$JUPYTER_ID:latest"
+        docker push "$JUPYTER_ID:latest"
