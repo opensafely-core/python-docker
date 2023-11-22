@@ -1,17 +1,28 @@
 name: Run tests
 on:
   pull_request:
-env:
-  IMAGE_NAME: python
 jobs:
-  tests:
-    runs-on: ubuntu-20.04
+  version-tests:
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        version: [v1, v2]
     steps:
-    - name: Checkout
-      uses: actions/checkout@master
+    - uses: actions/checkout@v3
+    - uses: "opensafely-core/setup-action@v1"
+      with:
+          install-just: true
     - name: Build image
-      run: make build
+      run: just build ${{ matrix.version }}
     - name: Run tests
-      run: make test functional-test
-    - name: Run lint
-      run: make lint 
+      run: just test ${{ matrix.version }}
+  lint:
+    runs-on: ubuntu-22.04
+    steps:
+    - uses: actions/checkout@v3
+    - uses: "opensafely-core/setup-action@v1"
+      with:
+          install-just: true
+    - name: Run linters
+      run: just check 
+

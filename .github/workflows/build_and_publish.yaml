@@ -1,33 +1,34 @@
 name: Build and publish
 on:
+  workflow_dispatch:
   push:
     branches: [main]
-  workflow_dispatch:
-permissions:
-  packages: write
-env:
-  IMAGE_NAME: python
+
 jobs:
-  build-and-publish:
-    runs-on: ubuntu-20.04
+  publish:
+    # note: this builds/tests all versions in serial for two reasons. Firstly we
+    # want all versions to release or none of them. Secondly, we will be able
+    # publish the exact images that were built and tested.
+    runs-on: ubuntu-22.04
     steps:
-    - name: Checkout
-      uses: actions/checkout@v3
-    - name: Build image
-      run: make build
+    - uses: actions/checkout@v3
+    - uses: "opensafely-core/setup-action@v1"
+      with:
+          install-just: true
+    - name: Build images
+      run: |
+        just build v1
+        just build v2
     - name: Run tests
-      run: make test functional-test
-    - name: Run lint
-      run: make lint 
+      run: |
+        just test v1
+        just test v2
+    - name: Run linters
+      run: just check 
+
     - name: Log into GitHub Container Registry
       run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login https://ghcr.io -u ${{ github.actor }} --password-stdin
     - name: Push image to GitHub Container Registry
       run: |
-        IMAGE_ID="ghcr.io/${{ github.repository_owner }}/$IMAGE_NAME"
-        docker tag "$IMAGE_NAME" "$IMAGE_ID:latest"
-        docker push "$IMAGE_ID:latest"
-
-        JUPYTER_ID="ghcr.io/${{ github.repository_owner }}/jupyter"
-        # also publish as jupyter image for backward compatibility
-        docker tag "$IMAGE_NAME" "$JUPYTER_ID:latest"
-        docker push "$JUPYTER_ID:latest"
+        just publish v1
+        just publish v2
