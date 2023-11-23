@@ -1,9 +1,11 @@
 export DOCKER_BUILDKIT := "1"
+# technically, these could differ by 1 seconds, but thats unlikely and doesn't matter
+# human readable, used as label in docker image
 export BUILD_DATE := `date +'%y-%m-%dT%H:%M:%S.%3NZ'`
+# monotonic, used as label in docker image *and* in docker tag
+export BUILD_NUMBER := `date +'%y%m%d%H%M%S'`
 export REVISION := `git rev-parse --short HEAD`
 
-# TODO: calculate this
-export BUILD_NUMBER := "1234"
 
 build version target="python" *args="":
     docker-compose --env-file {{ version }}/env build --pull {{ args }} {{ target }} 
@@ -18,23 +20,5 @@ check:
     @docker pull hadolint/hadolint:v2.12.0
     @docker run --rm -i hadolint/hadolint:v2.12.0 < Dockerfile
 
-publish version:
-    #!/bin/bash
-    set -euxo pipefail
-    docker tag python:{{ version }} ghcr.io/opensafely-core/python:{{ version }}
-    echo docker push ghcr.io/opensafely-core/python:{{ version }}
-
-    if test "{{ version }}" = "v1"; then
-        # jupyter is only alias for v1
-        docker tag python:{{ version }} ghcr.io/opensafely-core/jupyter:{{ version }}
-        echo docker push ghcr.io/opensafely-core/jupyter:{{ version }}
-
-        # v1 is also known as latest, at least until we transition fully
-        docker tag python:{{ version }} ghcr.io/opensafely-core/python:latest
-        docker tag python:{{ version }} ghcr.io/opensafely-core/jupyter:latest
-        echo docker push ghcr.io/opensafely-core/python:latest
-        echo docker push ghcr.io/opensafely-core/jupyter:latest
-    fi
-
-
-
+publish version publish="false":
+    PUBLISH={{ publish }} ./scripts/publish.sh {{ version }}

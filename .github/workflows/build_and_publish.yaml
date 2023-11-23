@@ -30,5 +30,6 @@ jobs:
       run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login https://ghcr.io -u ${{ github.actor }} --password-stdin
     - name: Push image to GitHub Container Registry
       run: |
-        just publish v1
-        just publish v2
+        # just test publish for now
+        just publish v1 false
+        just publish v2 false
