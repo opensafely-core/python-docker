@@ -16,8 +16,9 @@ RUN mkdir /workspace
 WORKDIR /workspace
 
 ARG MAJOR_VERSION
+ARG BASE
 # ACTION_EXEC sets the default executable for the entrypoint in the base-docker image
-ENV ACTION_EXEC=python MAJOR_VERSION=${MAJOR_VERSION}
+ENV ACTION_EXEC=python MAJOR_VERSION=${MAJOR_VERSION} BASE=${BASE}
 
 COPY ${MAJOR_VERSION}/dependencies.txt /root/dependencies.txt
 # use space efficient utility from base image

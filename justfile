@@ -19,6 +19,12 @@ test version *args="tests -v": (build version)
 # run pip-compile to add new dependencies, or update existing ones with --upgrade
 update version *args="": (build version)
     docker-compose --env-file {{ version }}/env run --rm -v $PWD:/workspace base pip-compile {{ args }} {{ version }}/requirements.in -o {{ version }}/requirements.txt
+    {{ just_executable() }} render {{ version }}
+
+
+# render package version information
+render version *args:
+    docker-compose --env-file {{ version }}/env run --rm -v $PWD:/workspace python ./scripts/render.py {{ args }} > {{ version }}/packages.md
 
 
 # run linters
