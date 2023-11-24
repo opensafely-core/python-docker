@@ -6,19 +6,27 @@ export BUILD_DATE := `date +'%y-%m-%dT%H:%M:%S.%3NZ'`
 export BUILD_NUMBER := `date +'%y%m%d%H%M%S'`
 export REVISION := `git rev-parse --short HEAD`
 
-
+# build docker image for version
 build version target="python" *args="":
     docker-compose --env-file {{ version }}/env build --pull {{ args }} {{ target }} 
 
-test version *args="tests -v":
+
+# test docker image for version
+test version *args="tests -v": (build version)
     docker-compose --env-file {{ version }}/env run --rm -v $PWD:/workspace python pytest {{ args }}
 
-update version *args="":
+
+# run pip-compile to add new dependencies, or update existing ones with --upgrade
+update version *args="": (build version)
     docker-compose --env-file {{ version }}/env run --rm -v $PWD:/workspace base pip-compile {{ args }} {{ version }}/requirements.in -o {{ version }}/requirements.txt
 
+
+# run linters
 check:
     @docker pull hadolint/hadolint:v2.12.0
     @docker run --rm -i hadolint/hadolint:v2.12.0 < Dockerfile
 
+
+# publish version (dry run by default - pass "true" to perform publish)
 publish version publish="false":
     PUBLISH={{ publish }} ./scripts/publish.sh {{ version }}
