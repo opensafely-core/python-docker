@@ -20,9 +20,9 @@ ARG BASE
 # ACTION_EXEC sets the default executable for the entrypoint in the base-docker image
 ENV ACTION_EXEC=python MAJOR_VERSION=${MAJOR_VERSION} BASE=${BASE}
 
-COPY ${MAJOR_VERSION}/dependencies.txt /root/dependencies.txt
+COPY ${MAJOR_VERSION}/dependencies.txt /opt/dependencies.txt
 # use space efficient utility from base image
-RUN /root/docker-apt-install.sh /root/dependencies.txt
+RUN /root/docker-apt-install.sh /opt/dependencies.txt
 
 # now we have python, set up a venv to install packages to, for isolation from
 # system python libraries 
@@ -42,16 +42,17 @@ FROM base-python as builder
 ARG MAJOR_VERSION
 
 # install build time dependencies 
-COPY ${MAJOR_VERSION}/build-dependencies.txt /root/build-dependencies.txt
-RUN /root/docker-apt-install.sh /root/build-dependencies.txt
+COPY ${MAJOR_VERSION}/build-dependencies.txt /opt/build-dependencies.txt
+RUN /root/docker-apt-install.sh /opt/build-dependencies.txt
 
-COPY ${MAJOR_VERSION}/requirements.txt /root/requirements.txt
+COPY ${MAJOR_VERSION}/requirements.txt /opt/requirements.txt
+COPY ${MAJOR_VERSION}/packages.md /opt/packages.md
 # Note: the mount command does two things: 1) caches across builds to speed up
 # local development and 2) ensures the pip cache does not get committed to the
 # layer (which is why we ignore DL3042).
 # hadolint ignore=DL3042
 RUN --mount=type=cache,target=/root/.cache \
-    python -m pip install --requirement /root/requirements.txt
+    python -m pip install --requirement /opt/requirements.txt
 
 ################################################
 #
@@ -70,7 +71,7 @@ LABEL org.opencontainers.image.title="python:${MAJOR_VERSION}" \
       org.opensafely.action="python:${MAJOR_VERSION}"
 
 # copy venv over from builder image
-COPY --from=builder /opt/venv /opt/venv
+COPY --from=builder /opt/ /opt/
 
 # tag with build info as the very last step, as it will never be cacheable
 ARG BUILD_DATE
