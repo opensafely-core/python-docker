@@ -17,7 +17,7 @@ test version *args="tests -v": (build version)
 
 
 # run pip-compile to add new dependencies, or update existing ones with --upgrade
-update version *args="": (build version)
+update version *args="":
     docker compose --env-file {{ version }}/env run --rm -v $PWD:/workspace base pip-compile {{ args }} {{ version }}/requirements.in -o {{ version }}/requirements.txt
     {{ just_executable() }} render {{ version }}
     {{ just_executable() }} test {{ version }}
