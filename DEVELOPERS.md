@@ -51,6 +51,8 @@ just test v2
 
 TODO, but basically, `cp -a v$N v${N+1}` and edit.
 
+You will also need to configure appropriate security alerting rules as described here:
+https://github.com/opensafely-core/security/issues/30
 
 ## Publishing
 
