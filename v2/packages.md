@@ -90,7 +90,6 @@ It comes pre-installed with a standard set of python packages.
 - [numba: 0.58.1](https://pypi.org/project/numba/0.58.1/)
 - [numpy: 1.26.2](https://pypi.org/project/numpy/1.26.2/)
 - [opensafely-cohort-extractor: 1.90.0](https://pypi.org/project/opensafely-cohort-extractor/1.90.0/)
-- [opensafely-matching: 0.2.0](https://pypi.org/project/opensafely-matching/0.2.0/)
 - [overrides: 7.4.0](https://pypi.org/project/overrides/7.4.0/)
 - [packaging: 23.2](https://pypi.org/project/packaging/23.2/)
 - [pandas: 2.1.3](https://pypi.org/project/pandas/2.1.3/)

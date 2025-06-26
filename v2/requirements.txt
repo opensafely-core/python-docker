@@ -256,8 +256,6 @@ numpy==1.26.2
     #   seaborn
 opensafely-cohort-extractor==1.90.0
     # via -r v2/requirements.in
-opensafely-matching==0.2.0
-    # via -r v2/requirements.in
 overrides==7.4.0
     # via jupyter-server
 packaging==23.2
@@ -278,7 +276,6 @@ pandas==2.1.3
     #   formulaic
     #   lifelines
     #   opensafely-cohort-extractor
-    #   opensafely-matching
     #   seaborn
     #   upsetplot
 pandocfilters==1.5.0
