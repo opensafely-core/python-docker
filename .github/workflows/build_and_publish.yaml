@@ -11,7 +11,7 @@ jobs:
     # publish the exact images that were built and tested.
     runs-on: ubuntu-22.04
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v5
     - uses: "opensafely-core/setup-action@v1"
       with:
           install-just: true
