@@ -29,8 +29,9 @@ render version *args:
 
 # run linters
 check:
-    @docker pull hadolint/hadolint:v2.12.0
-    @docker run --rm -i hadolint/hadolint:v2.12.0 < Dockerfile
+    @docker run --rm -i hadolint/hadolint:v2.14.0 < Dockerfile
+    @ls scripts/*.sh | xargs docker run --rm -v "$PWD:/mnt:ro" koalaman/shellcheck:v0.11.0
+    @docker run --rm -v "$PWD:/repo:ro" --workdir /repo rhysd/actionlint:1.7.10 -color
 
 
 # publish version (dry run by default - pass "true" to perform publish)
