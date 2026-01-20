@@ -25,6 +25,7 @@ COPY ${MAJOR_VERSION}/dependencies.txt /opt/dependencies.txt
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt,sharing=locked \
     --mount=type=bind,source=${MAJOR_VERSION}/dependencies.txt,target=/tmp/dependencies.txt \
+    --mount=type=secret,id=ubuntu_pro_token,required=true \
     mkdir /workspace; \
     /root/docker-apt-install.sh /tmp/dependencies.txt
 
@@ -49,6 +50,7 @@ ARG MAJOR_VERSION
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt,sharing=locked \
     --mount=type=bind,source=${MAJOR_VERSION}/build-dependencies.txt,target=/tmp/build-dependencies.txt \
+    --mount=type=secret,id=ubuntu_pro_token \
     /root/docker-apt-install.sh /tmp/build-dependencies.txt
 
 COPY ${MAJOR_VERSION}/requirements.txt /opt/requirements.txt
