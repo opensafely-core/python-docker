@@ -3,7 +3,8 @@ on:
   workflow_dispatch:
   push:
     branches: [main]
-
+env:
+  UBUNTU_PRO_TOKEN: ${{ secrets.UBUNTU_PRO_TOKEN }}
 jobs:
   publish:
     # note: this builds/tests all versions in serial for two reasons. Firstly we

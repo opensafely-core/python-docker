@@ -5,6 +5,8 @@ services:
     build:
       context: .
       target: base-python
+      secrets:
+        - ubuntu_pro_token
       cache_from:  # should speed up the build in CI, where we have a cold cache
         - ghcr.io/opensafely-core/base-action:${BASE}
         - ghcr.io/opensafely-core/python:${MAJOR_VERSION}
@@ -24,3 +26,7 @@ services:
     image: python:${MAJOR_VERSION}
     build:
       target: python
+
+secrets:
+  ubuntu_pro_token:
+    file: ${UBUNTU_PRO_TOKEN_FILE:-.secrets/ubuntu_pro_token}

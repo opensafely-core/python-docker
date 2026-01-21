@@ -1,6 +1,8 @@
 name: Run tests
 on:
   pull_request:
+env:
+  UBUNTU_PRO_TOKEN: ${{ secrets.UBUNTU_PRO_TOKEN }}
 jobs:
   version-tests:
     runs-on: ubuntu-22.04

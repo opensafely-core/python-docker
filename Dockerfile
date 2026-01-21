@@ -1,4 +1,4 @@
-# syntax=docker/dockerfile:1.2
+# syntax=docker/dockerfile:1.10
 #################################################
 #
 # We need base python dependencies on both the builder and python images, so
@@ -22,7 +22,12 @@ ENV ACTION_EXEC=python MAJOR_VERSION=${MAJOR_VERSION} BASE=${BASE}
 
 COPY ${MAJOR_VERSION}/dependencies.txt /opt/dependencies.txt
 # use space efficient utility from base image
-RUN /root/docker-apt-install.sh /opt/dependencies.txt
+RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
+    --mount=type=cache,target=/var/lib/apt,sharing=locked \
+    --mount=type=bind,source=${MAJOR_VERSION}/dependencies.txt,target=/tmp/dependencies.txt \
+    --mount=type=secret,id=ubuntu_pro_token,required=true \
+    mkdir /workspace; \
+    /root/docker-apt-install.sh /tmp/dependencies.txt
 
 # now we have python, set up a venv to install packages to, for isolation from
 # system python libraries 
@@ -42,8 +47,11 @@ FROM base-python as builder
 ARG MAJOR_VERSION
 
 # install build time dependencies 
-COPY ${MAJOR_VERSION}/build-dependencies.txt /opt/build-dependencies.txt
-RUN /root/docker-apt-install.sh /opt/build-dependencies.txt
+RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
+    --mount=type=cache,target=/var/lib/apt,sharing=locked \
+    --mount=type=bind,source=${MAJOR_VERSION}/build-dependencies.txt,target=/tmp/build-dependencies.txt \
+    --mount=type=secret,id=ubuntu_pro_token \
+    /root/docker-apt-install.sh /tmp/build-dependencies.txt
 
 COPY ${MAJOR_VERSION}/requirements.txt /opt/requirements.txt
 COPY ${MAJOR_VERSION}/packages.md /opt/packages.md

@@ -29,6 +29,14 @@ just build v2
 just test v2
 ```
 
+## ESM Packages on 20.04 images
+
+We still support the older python:v1, but it is based on Ubuntu 20.04, which
+has reached EOL for security upgrades. So we have enabled ESM via Ubuntu Pro for these images.
+
+This means that you do need a valid `UBUNTU_PRO_TOKEN` environment variable to
+build these images.
+
 
 ## Add a new package to existing version
 
