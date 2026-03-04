@@ -5,6 +5,9 @@ on:
     branches: [main]
 env:
   UBUNTU_PRO_TOKEN: ${{ secrets.UBUNTU_PRO_TOKEN }}
+permissions:
+  contents: read
+  packages: write
 jobs:
   publish:
     # note: this builds/tests all versions in serial for two reasons. Firstly we
