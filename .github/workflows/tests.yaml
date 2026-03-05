@@ -1,6 +1,8 @@
 name: Run tests
 on:
   pull_request:
+permissions:
+  contents: read
 env:
   UBUNTU_PRO_TOKEN: ${{ secrets.UBUNTU_PRO_TOKEN }}
 jobs:
