@@ -35,11 +35,13 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 RUN python3 -m venv /opt/venv
 # "activate" the venv
 ENV VIRTUAL_ENV=/opt/venv/ PATH="/opt/venv/bin:$PATH"
-# We ensure up-to-date build tools (which why we ignore DL3013)
+# Ensure recent build tools
 # Pin setuptools to <82.0.0 (which removed pkg_resources, which some dependencies require)
-# hadolint ignore=DL3013,DL3042
-RUN --mount=type=cache,target=/root/.cache python -m pip install -U pip wheel pip-tools "setuptools<82.0.0"
-
+# Pin others to next major/minor version as of 2026-03-05 (major/minor depending on where
+# the package tends to include breaking changes)
+# hadolint ignore=DL3042
+RUN --mount=type=cache,target=/root/.cache python -m pip install -U "pip<27.0.0" "wheel<0.47.0" "pip-tools<7.6.0" "setuptools<82.0.0"
+RUN pip freeze
 
 #################################################
 #
