@@ -4,34 +4,36 @@ set dotenv-load := true
 
 export UBUNTU_PRO_TOKEN_FILE := env_var_or_default('UBUNTU_PRO_TOKEN_FILE', justfile_directory() + "/.secrets/ubuntu_pro_token")
 export DOCKER_BUILDKIT := "1"
+
 # technically, these could differ by 1 seconds, but thats unlikely and doesn't matter
 # human readable, used as label in docker image
+
 export BUILD_DATE := `date +'%y-%m-%dT%H:%M:%S.%3NZ'`
+
 # monotonic, used as label in docker image *and* in docker tag
+
 export BUILD_NUMBER := `date +'%y%m%d%H%M%S'`
 export REVISION := `git rev-parse --short HEAD`
 
 ensure-pro-token:
-  #!/bin/bash
-  set -euo pipefail
-  token_file="{{ UBUNTU_PRO_TOKEN_FILE }}"
-  if test -z "${UBUNTU_PRO_TOKEN:-}"; then
-    echo "UBUNTU_PRO_TOKEN is required to create $token_file" >&2
-    exit 1
-  fi
-  mkdir -p "$(dirname "$token_file")"
-  umask 077
-  printf '%s' "$UBUNTU_PRO_TOKEN" > "$token_file"
+    #!/bin/bash
+    set -euo pipefail
+    token_file="{{ UBUNTU_PRO_TOKEN_FILE }}"
+    if test -z "${UBUNTU_PRO_TOKEN:-}"; then
+      echo "UBUNTU_PRO_TOKEN is required to create $token_file" >&2
+      exit 1
+    fi
+    mkdir -p "$(dirname "$token_file")"
+    umask 077
+    printf '%s' "$UBUNTU_PRO_TOKEN" > "$token_file"
 
 # build docker image for version
 build version target="python" *args="": ensure-pro-token
     docker compose --env-file {{ version }}/env build --pull {{ args }} {{ target }} 
 
-
 # test docker image for version
 test version *args="tests -v": (build version)
     docker compose --env-file {{ version }}/env run --rm -v $PWD:/workspace python pytest {{ args }}
-
 
 # run pip-compile to add new dependencies, or update existing ones with --upgrade
 update version *args="":
@@ -51,7 +53,6 @@ render version *args:
 
 @lint-actions:
     {{ docker_run_safe }} -v $(pwd):/repo:ro --workdir /repo kjanat/actionlint:{{ actionlint_version }} -color
-
 
 # run linters
 check:
