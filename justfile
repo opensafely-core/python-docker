@@ -55,10 +55,7 @@ render version *args:
     {{ docker_run_safe }} -v $(pwd):/repo:ro --workdir /repo kjanat/actionlint:{{ actionlint_version }} -color
 
 # run linters
-check:
-    -just lint-docker
-    -just shellcheck
-    -just lint-actions
+check: lint-docker shellcheck lint-actions
 
 # publish version (dry run by default - pass "true" to perform publish)
 publish version publish="false":
