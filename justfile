@@ -1,3 +1,5 @@
+import 'justfile.base'
+
 set dotenv-load := true
 
 export UBUNTU_PRO_TOKEN_FILE := env_var_or_default('UBUNTU_PRO_TOKEN_FILE', justfile_directory() + "/.secrets/ubuntu_pro_token")
@@ -41,13 +43,21 @@ update version *args="":
 render version *args:
     docker compose --env-file {{ version }}/env run --rm -v $PWD:/workspace python ./scripts/render.py {{ args }} > {{ version }}/packages.md
 
+@lint-docker:
+    {{ docker_run_safe }} -i ghcr.io/hadolint/hadolint:{{ hadolint_version }} < Dockerfile
+
+@shellcheck:
+    {{ docker_run_safe }} -v "$PWD:/mnt:ro" koalaman/shellcheck:{{ shellcheck_version }} scripts/*.sh
+
+@lint-actions:
+    {{ docker_run_safe }} -v $(pwd):/repo:ro --workdir /repo kjanat/actionlint:{{ actionlint_version }} -color
+
 
 # run linters
 check:
-    @docker run --rm -i hadolint/hadolint:v2.14.0 < Dockerfile
-    @ls scripts/*.sh | xargs docker run --rm -v "$PWD:/mnt:ro" koalaman/shellcheck:v0.11.0
-    @docker run --rm -v "$PWD:/repo:ro" --workdir /repo rhysd/actionlint:1.7.10 -color
-
+    -just lint-docker
+    -just shellcheck
+    -just lint-actions
 
 # publish version (dry run by default - pass "true" to perform publish)
 publish version publish="false":
